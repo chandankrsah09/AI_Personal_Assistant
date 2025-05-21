@@ -8,10 +8,12 @@ import { GetAuthUserData } from "@/services/GlobalApi";
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { AuthContext } from "@/context/AuthContext";
+import { useRouter } from "next/navigation";
 
 function SignIn() {
   const CreateUser = useMutation(api.users.CreateUser);
   const { user, setUser } = useContext(AuthContext);
+  const router = useRouter();
 
   const googleLogin = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
@@ -30,6 +32,7 @@ function SignIn() {
         picture: user?.picture,
       });
       setUser(result);
+      router.replace("/ai-assistants");
     },
     onError: (errorResponse) => console.log(errorResponse),
   });
